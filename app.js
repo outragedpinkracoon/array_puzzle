@@ -16,20 +16,21 @@ const transformMovies = (movieLists) => {
 				.map(item => item.videos)
 				.map(videos => {
 					return videos.map(({title, id, boxarts}) => ({
-						title,
-						id,
-						boxart: (() => {
-														if(!boxarts) return
-
-														return boxarts.filter(x => x.width == 150)
-											 										.map(x => x.url)
-											 										.reduce(((curr, item) => item + curr), '')
-													})()
+							title,
+							id,
+							boxart: getBoxart(boxarts)
 						})
 					)
 				})
 				.concatAll()
 
+}
+
+const getBoxart = (boxarts) => {
+	if(!boxarts) return
+	return boxarts.filter(x => x.width == 150)
+								.map(x => x.url)
+								.reduce(((curr, item) => item + curr), '')
 }
 
 module.exports = transformMovies
