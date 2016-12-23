@@ -13,9 +13,8 @@ Array.prototype.concatAll = function() {
 
 const transformMovies = (movieLists) => {
 	return movieLists
-				.map(item => item.videos)
-				.map(videos => {
-					return videos.map(({title, id, boxarts}) => ({
+				.map(item => {
+					return item.videos.map(({title, id, boxarts}) => ({
 							title,
 							id,
 							boxart: getBoxart(boxarts)
@@ -29,8 +28,7 @@ const transformMovies = (movieLists) => {
 const getBoxart = (boxarts) => {
 	if(!boxarts) return
 	return boxarts.filter(x => x.width == 150)
-								.map(x => x.url)
-								.reduce(((curr, item) => item + curr), '')
+								.reduce(((curr, item) => item.url + curr), '')
 }
 
 module.exports = transformMovies
