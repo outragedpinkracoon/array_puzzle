@@ -12,23 +12,23 @@ Array.prototype.concatAll = function() {
 };
 
 const transformMovies = (movieLists) => {
-	return movieLists
-				.map(item => {
-					return item.videos.map(({title, id, boxarts}) => ({
-							title,
-							id,
-							boxart: getBoxart(boxarts)
-						})
-					)
-				})
-				.concatAll()
-
+	return movieLists.map(item => {
+		return item.videos.map(({title, id, boxarts}) => ({
+				title,
+				id,
+				boxart: getBoxart(boxarts)
+			})
+		)
+	})
+	.concatAll()
 }
 
 const getBoxart = (boxarts) => {
 	if(!boxarts) return
-	return boxarts.filter(x => x.width == 150)
-								.reduce(((curr, item) => item.url + curr), '')
+	return boxarts.reduce((curr, item) => {
+		if(item.width == 150) return item.url + curr
+		return curr
+	}, '')
 }
 
 module.exports = transformMovies
